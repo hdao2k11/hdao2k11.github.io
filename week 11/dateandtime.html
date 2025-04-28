@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Hiển thị ngày giờ</title>
+<style>
+    input { width: 400px; }
+</style>
+<script>
+let timer = null;
+
+function play() {
+    const daysOfWeek = ["Chủ Nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
+    const today = new Date();
+
+    // Lấy form và input
+    const form = document.forms["clockForm"];
+    form.elements["date"].value = `Hôm nay là: ${daysOfWeek[today.getDay()]}, ngày ${today.getDate()}, tháng ${today.getMonth() + 1}, năm ${today.getFullYear()}`;
+
+    let h = today.getHours();
+    let m = today.getMinutes();
+    let s = today.getSeconds();
+    const ampm = h >= 12 ? "PM" : "AM";
+    h = h % 12;
+    h = h ? h : 12; // giờ 0 thành 12
+
+    // Đảm bảo 2 chữ số
+    h = h.toString().padStart(2, '0');
+    m = m.toString().padStart(2, '0');
+    s = s.toString().padStart(2, '0');
+
+    form.elements["time"].value = `Bây giờ là: ${h}:${m}:${s} ${ampm}`;
+
+    timer = setTimeout(play, 1000);
+}
+
+function stop() {
+    clearTimeout(timer);
+}
+</script>
+</head>
+
+<body onload="play()">
+<center>
+<form name="clockForm">
+    <input name="date" readonly><br><br>
+    <input name="time" readonly><br><br>
+    <button type="button" onclick="play()">Chạy đồng hồ</button>
+    <button type="button" onclick="stop()">Ngừng đồng hồ</button>
+</form>
+</center>
+</body>
+</html>
